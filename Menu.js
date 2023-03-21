@@ -1,4 +1,4 @@
-class Books {
+class Book {
     constructor(title, genres) {
         this.title = title;
         this.genres = genres;
@@ -12,26 +12,26 @@ class Books {
 class Author {
     constructor(name) {
         this.name = name;
-        this.author = [];
+        this.books = [];
     }
 
-    addAuthor(author) {
-        if (author instanceof Books) {
-            this.authors.push(author);
+    addBook(book) {
+        if (book instanceof Book) {
+            this.books.push(book);
         } else {
-          throw new Error (`You can only search by genres. Input not a genre: ${author}`);
+          throw new Error (`You can only search by books. Input not a book: ${book}`);
         }
     }
 
     describe() {
-        return `${this.author} has ${this.books.length} books.`;
+        return `${this.name} has ${this.books.length} books.`;
     }
 }
 
 class Menu {
     constructor(){
       this.authors = [] ;
-      this.selectedBook = null;
+      this.selectedAuthor = null;
     }
 
     start() {
@@ -57,7 +57,7 @@ class Menu {
             selection = this.showMainMenuOptions();
         }
         
-        Alert('Ciao!');
+       alert('Good Bye!');
     }
 
     showMainMenuOptions() {
@@ -70,11 +70,11 @@ class Menu {
           `);
     }
 
-showAuthorMenuOption(authorInfo) {
+showAuthorMenuOptions(authorInfo) {
     return prompt(`
         0) back
-        1) create Author
-        2) delete Author
+        1) create title
+        2) delete title
         -----------------------
 
         ${authorInfo}
@@ -85,7 +85,7 @@ showAuthorMenuOption(authorInfo) {
 
 
 
-    dispalyAuthors(){
+    displayAuthors(){
         let authorString = '';
         for (let i =0; i < this.authors.length; i++) {
             authorString += i = ') ' + this.authors[i].name + '\n';
@@ -99,20 +99,22 @@ showAuthorMenuOption(authorInfo) {
      console.log(this.authors);   
     }
 
-    viewAuthors(){
+    viewAuthor(){
         let index = prompt('Enter the index of the Author you wish to view:');
         if (index > -1 && index < this.authors.length) {
             this.selectedAuthor = this.authors[index];
             let description = 'Author Name: ' + this.selectedAuthor.name + '\n';
 
             for (let i = 0; i < this.selectedAuthor.books.length;  i++) {
-              description += i = ') ' +this.selectedAuthor.books[i].name + ' - ' + this.selectedAuthor.books[i].genres + '\n';
+              description += i + ') ' +this.selectedAuthor.books[i].title + ' - ' + this.selectedAuthor.books[i].genres + '\n';
+
+              
             }
 
-            let selection = this.showTeamMenuOptions(description);
+            let selection = this.showAuthorMenuOptions(description);
             switch (selection) {
                 case '1':
-                    this.createdTitle();
+                    this.createTitle();
                     break;
                 case '2':
                     this.deleteTitle();
@@ -132,7 +134,7 @@ showAuthorMenuOption(authorInfo) {
     createTitle() {
         let title = prompt ('Enter new Title:');
         let genre = prompt ('Enter genre for new Title:'); 
-        this.selectedBook.authors.push(new Title(author, genre));
+        this.selectedAuthor.books.push(new Book(title, genre));
     }
 
     deleteTitle() {
